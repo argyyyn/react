@@ -12,35 +12,43 @@ export default class App extends Component {
 
   state = {
     todoData: [
-      { label: 'Drink Coffee', important: false, id: 1 },
-      { label: 'Make Awesome App', important: true, id: 2 },
-      { label: 'Have a lunch', important: false, id: 3 }
+      this.createTodoItem('Drink coffee'),
+      this.createTodoItem('Make Awesome app'),
+      this.createTodoItem('Have a lunch'),
     ]
   }
 
-  deleteItem = (id) => {
+  createTodoItem (label) {
+    return {
+      label,
+      important: false,
+      done: false,
+      id: this.maxId++
+    }
+  }
+
+  deleteItem = id => {
     this.setState(({todoData}) => {
       const idx = todoData.findIndex(el => el.id === id)
-
       return {todoData: [...todoData.slice(0, idx), ...todoData.slice(idx + 1)]}
     })
   }
 
-  onToggleImportant = (id) => {
-    console.log('toggle important', id)
+  onToggleImportant = id => {
+    this.setState(() => {
+      this.setState(({todoData}) => {
+        const idx = todoData.findIndex(el => el.id === id)
+
+      })
+    })
   }
 
-  onToggleDone = (id) => {
+  onToggleDone = id => {
     console.log('toggle done', id)
   }
 
   addItem = (text) => {
-    const newItem = {
-      label: text,
-      important: false,
-      id: this.maxId++
-    }
-
+    const newItem = this.createTodoItem(text)
     this.setState(({todoData}) => {
       return { todoData: [...todoData, newItem] }
     })
