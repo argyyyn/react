@@ -8,6 +8,8 @@ import './app.css';
 import ItemAddForm from "../item-add-form";
 
 export default class App extends Component {
+  maxId = 100
+
   state = {
     todoData: [
       { label: 'Drink Coffee', important: false, id: 1 },
@@ -21,6 +23,26 @@ export default class App extends Component {
       const idx = todoData.findIndex(el => el.id === id)
 
       return {todoData: [...todoData.slice(0, idx), ...todoData.slice(idx + 1)]}
+    })
+  }
+
+  onToggleImportant = (id) => {
+    console.log('toggle important', id)
+  }
+
+  onToggleDone = (id) => {
+    console.log('toggle done', id)
+  }
+
+  addItem = (text) => {
+    const newItem = {
+      label: text,
+      important: false,
+      id: this.maxId++
+    }
+
+    this.setState(({todoData}) => {
+      return { todoData: [...todoData, newItem] }
     })
   }
 
@@ -38,9 +60,11 @@ export default class App extends Component {
         <TodoList
           todos={todoData}
           onDeleted={id => this.deleteItem(id)}
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
         />
 
-        <ItemAddForm />
+        <ItemAddForm onItemAdd={this.addItem} />
       </div>
     );
   }
