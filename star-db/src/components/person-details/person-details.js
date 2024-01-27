@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 
 import './person-details.css';
 import SwapiService from "../../services/swapi-service";
+import Spinner from "../spinner";
 
 export default class PersonDetails extends Component {
   swipeService = new SwapiService()
 
   state = {
-    person: null
+    person: null,
+    loading: false
   }
 
   componentDidMount() {
@@ -23,19 +25,21 @@ export default class PersonDetails extends Component {
     const {personId} = this.props
     if (!personId) return
 
+    this.setState({ loading: true })
     this.swipeService
       .getPerson(personId)
-      .then(person => this.setState({person}))
+      .then(person => this.setState({person, loading: false}))
   }
 
   render() {
     if (!this.state.person) return <span>Select a person from a list</span>
+    if (this.state.loading) return <Spinner/>
 
     const { person: {id, name, gender, birthYear, eyeColor} } = this.state
 
     return (
       <div className="person-details card">
-        <img className="person-image" src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
+        <img className="person-image" src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} alt={name}/>
 
         <div className="card-body">
           <h4>{name}</h4>
