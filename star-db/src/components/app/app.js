@@ -6,8 +6,11 @@ import ItemList from '../item-list';
 import PersonDetails from '../person-details';
 
 import './app.css';
+import SwapiService from "../../services/swapi-service";
 
 export default class App extends Component {
+  swapiService = new SwapiService()
+
   state = {
     selectedPerson: 5
   }
@@ -22,16 +25,30 @@ export default class App extends Component {
     return (
       <div>
         <Header />
-        <RandomPlanet />
+        {/*<RandomPlanet />*/}
 
-        <div className="row mb2">
+        <div className="row mb-4">
           <div className="col-md-6">
-            <ItemList onItemSelected={this.onPersonSelected}/>
+            <ItemList
+              getData={this.swapiService.getAllPeople}
+              onItemSelected={this.onPersonSelected}/>
           </div>
           <div className="col-md-6">
             <PersonDetails personId={this.state.selectedPerson}/>
           </div>
         </div>
+
+        <div className="row mb-4">
+          <div className="col-md-6">
+            <ItemList
+              getData={this.swapiService.getAllStarships}
+              onItemSelected={this.onPersonSelected}/>
+          </div>
+          <div className="col-md-6">
+            {/*<PersonDetails personId={this.state.selectedPerson}/>*/}
+          </div>
+        </div>
+
       </div>
     );
   }

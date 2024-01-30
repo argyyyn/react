@@ -21,14 +21,13 @@ export default class PersonDetails extends Component {
 
     this.swipeService
       .getPerson(personId)
-      .then(person => this.setState({person}))
+      .then(person => { this.setState({person}) })
   }
 
   render() {
     if (!this.state.person) return <span>Select a person from a list</span>
 
-    const { person: {id, name, gender, birthYear, eyeColor} } = this.state.person
-
+    const { id, name, gender, birthYear, eyeColor } = this.state.person
 
     return (
       <div className="person-details card">
