@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 
-import ItemList from '../item-list/item-list';
-import PersonDetails from '../person-details/person-details';
+import ItemList from '../item-list';
+import ItemDetails from '../item-details';
 import ErrorIndicator from '../error-indicator/error-indicator';
 
 import './people-page.css';
 import SwapiService from "../../services/swapi-service";
+import Row from "../row";
 
-const Row = ({left, right}) => {
-  return (
-    <div className="row mb-4">
-      <div className="col-md-6">
-        {left}
-      </div>
-      <div className="col-md-6">
-        {right}
-      </div>
-    </div>
-  )
+class ErrorBoundary extends Component {
+  state = {
+    hasError: false
+  }
+
+  componentDidCatch() {
+    this.setState({
+      hasError: true
+    })
+  }
+
+  render () {
+    if (this.state.hasError)
+      return <ErrorIndicator/>
+    return this.props.children
+  }
 }
 
 export default class PeoplePage extends Component {
@@ -26,7 +32,6 @@ export default class PeoplePage extends Component {
 
   state = {
     selectedPerson: 3,
-    hasError: false
   };
 
   componentDidCatch(error, info) {
@@ -41,23 +46,21 @@ export default class PeoplePage extends Component {
   };
 
   render() {
-    if (this.state.hasError) {
-      return <ErrorIndicator />;
-    }
+    if (this.state.hasError)
+      return <ErrorIndicator />
 
-    const itemList = (
+    const itemList =
       <ItemList
-        renderItem={item => `${item.name} (${item.gender})`}
         onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}/>
-    )
+        getData={this.swapiService.getAllPeople}>
+        {i => `${i.name} (${i.gender})`}
+      </ItemList>
 
-    const personDetails = (
-      <PersonDetails personId={this.state.selectedPerson} />
-    )
 
-    return (
-      <Row left={itemList} right={personDetails}/>
-    );
+    const itemDetails = <ErrorBoundary>
+        <ItemDetails itemId={this.state.selectedPerson} />
+      </ErrorBoundary>
+
+    return <Row left={itemList} right={itemDetails}/>
   }
 }
