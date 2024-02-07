@@ -1,66 +1,65 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import ItemList from '../item-list';
-import ItemDetails from '../item-details';
-import ErrorIndicator from '../error-indicator/error-indicator';
+import ItemList from '../item-list'
+import ItemDetails from '../item-details'
+import ErrorIndicator from '../error-indicator/error-indicator'
 
-import './people-page.css';
-import SwapiService from "../../services/swapi-service";
-import Row from "../row";
+import './people-page.css'
+import SwapiService from '../../services/swapi-service'
+import Row from '../row'
 
 class ErrorBoundary extends Component {
-  state = {
-    hasError: false
-  }
+	state = {
+		hasError: false,
+	}
 
-  componentDidCatch() {
-    this.setState({
-      hasError: true
-    })
-  }
+	componentDidCatch() {
+		this.setState({
+			hasError: true,
+		})
+	}
 
-  render () {
-    if (this.state.hasError)
-      return <ErrorIndicator/>
-    return this.props.children
-  }
+	render() {
+		if (this.state.hasError) return <ErrorIndicator />
+		return this.props.children
+	}
 }
 
 export default class PeoplePage extends Component {
+	swapiService = new SwapiService()
 
-  swapiService = new SwapiService();
+	state = {
+		selectedPerson: 3,
+	}
 
-  state = {
-    selectedPerson: 3,
-  };
+	componentDidCatch(error, info) {
+		this.setState({
+			hasError: true,
+		})
+	}
 
-  componentDidCatch(error, info) {
+	onPersonSelected = (selectedPerson) => {
+		this.setState({ selectedPerson })
+	}
 
-    this.setState({
-      hasError: true
-    });
-  }
+	render() {
+		if (this.state.hasError) return <ErrorIndicator />
 
-  onPersonSelected = (selectedPerson) => {
-    this.setState({ selectedPerson });
-  };
+		const itemList = (
+			<ItemList
+				onItemSelected={this.onPersonSelected}
+				getData={this.swapiService.getAllPeople}
+			>
+				{(i) => `${i.name} (${i.gender})`}
+			</ItemList>
+		)
 
-  render() {
-    if (this.state.hasError)
-      return <ErrorIndicator />
+		const itemDetails = (
+			<ErrorBoundary>
+				<ItemDetails itemId={this.state.selectedPerson} />
+			</ErrorBoundary>
+		)
 
-    const itemList =
-      <ItemList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}>
-        {i => `${i.name} (${i.gender})`}
-      </ItemList>
-
-
-    const itemDetails = <ErrorBoundary>
-        <ItemDetails itemId={this.state.selectedPerson} />
-      </ErrorBoundary>
-
-    return <Row left={itemList} right={itemDetails}/>
-  }
+		return <Row left={itemList} right={itemDetails} />
+	}
 }
