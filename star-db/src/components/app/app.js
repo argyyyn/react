@@ -43,8 +43,15 @@ export default class App extends Component {
       <RandomPlanet/> :
       null;
 
-    const personDetails = <ItemDetails getData={getPerson} itemId={11}/>
-    const starshipDetails = <ItemDetails getData={getStarship} itemId={5}/>
+    const personDetails = <ItemDetails
+      getData={getPerson}
+      getImageUrl={}
+      itemId={11}/>
+
+    const starshipDetails = <ItemDetails
+      getData={getStarship}
+      getImageUrl={}
+      itemId={5}/>
 
     return (
       <div className="stardb-app">

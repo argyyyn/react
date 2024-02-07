@@ -42,6 +42,8 @@ export default class SwapiService {
     return this._transformStarship(starship);
   };
 
+  getPersonImage = ({id}) =>
+
   _extractId = (item) => {
     const idRegExp = /\/([0-9]*)\/$/;
     return item.url.match(idRegExp)[1];
