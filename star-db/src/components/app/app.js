@@ -12,6 +12,7 @@ import ItemList from '../item-list';
 
 import './app.css';
 import {PersonDetails, PersonList, PlanetDetails, PlanetList, StarshipDetails, StarshipList} from "../sw-components";
+import Func from "../functional";
 
 export default class App extends Component {
 
@@ -42,6 +43,7 @@ export default class App extends Component {
       getAllPeople,
       getAllPlanets } = this.swapiService;
 
+    return <Func />
 
     return (
       <ErrorBoundry>
