@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
-
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ErrorBoundry from '../error-boundry';
 
-import Row from "../row/row";
-import ItemDetails, { Record } from "../item-details/item-details";
-import SwapiService from "../../services/swapi-service";
-
-import ItemList from '../item-list';
 
 import './app.css';
 import {PersonDetails, PersonList, PlanetDetails, PlanetList, StarshipDetails, StarshipList} from "../sw-components";
-import Func from "../functional";
+import {SwapiServiceProvider} from "../swapi-service-context";
+import SwapiService from "../../services/swapi-service";
 
 export default class App extends Component {
-
-  swapiService = new SwapiService();
+  swapiService = new SwapiService()
 
   state = {
     showRandomPlanet: true
@@ -36,37 +30,22 @@ export default class App extends Component {
       <RandomPlanet/> :
       null;
 
-    const { getPerson,
-      getStarship,
-      getPersonImage,
-      getStarshipImage,
-      getAllPeople,
-      getAllPlanets } = this.swapiService;
-
-    return <Func />
-
     return (
       <ErrorBoundry>
-        <div className="stardb-app">
-          <Header />
+        <SwapiServiceProvider value={this.swapiService}>
+          <div className="stardb-app">
+            <Header/>
 
-          <PersonDetails itemId={10} />
-          <PlanetDetails itemId={5} />
-          <StarshipDetails itemId={9} />
+            <PersonDetails itemId={10}/>
+            <PlanetDetails itemId={5}/>
+            <StarshipDetails itemId={9}/>
 
-          <PersonList>
-            { ({name}) => <span>{name}</span> }
-          </PersonList>
+            <PersonList/>
+            <StarshipList/>
+            <PlanetList/>
 
-          <StarshipList>
-            { ({name}) => <span>{name}</span> }
-          </StarshipList>
-
-          <PlanetList>
-            { ({name}) => <span>{name}</span> }
-          </PlanetList>
-
-        </div>
+          </div>
+        </SwapiServiceProvider>
       </ErrorBoundry>
     );
   }

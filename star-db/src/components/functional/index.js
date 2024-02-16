@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import {doc} from "prettier";
 
 function Func() {
-    let [number, setNumber] = useState(0)
+    let [arr, setArr] = useState([])
+    const handleClick = () => console.log('CARGO');
+
+
+    useEffect(() => {
+        document.addEventListener('click', handleClick)
+        console.log('argo')
+
+        return () => { document.removeEventListener('click', handleClick) }
+    }, [arr])
+
 
     return (
         <div>
-            <h1 onClick={() => setNumber(console.log('ago'))}>Test Data</h1>
-            <h2>{number}</h2>
+            <h1 onClick={() => setArr([...arr, arr.length])}>Test Data</h1>
+            <ul>
+                {
+                    arr.map(item => <li key={item}>{item}</li>)
+                }
+            </ul>
         </div>
     );
 
