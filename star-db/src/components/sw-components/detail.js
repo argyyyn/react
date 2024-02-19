@@ -2,21 +2,18 @@ import ItemDetails from "../item-details";
 import {Record} from "../item-details/item-details";
 import React from "react";
 import {SwapiServiceConsumer} from "../swapi-service-context";
+import {withSwapiService} from '../hoc-helper'
 
 const PersonDetails = ({ itemId }) => {
   return (
-    <SwapiServiceConsumer>
-        {
-            ({getPerson, getPersonImage}) => <ItemDetails
-                itemId={itemId}
-                getData={getPerson}
-                getImageUrl={getPersonImage}>
+    ({getPerson, getPersonImage}) => <ItemDetails
+        itemId={itemId}
+        getData={getPerson}
+        getImageUrl={getPersonImage}>
 
-                <Record field="gender" label="Gender" />
-                <Record field="eyeColor" label="Eye Color" />
-            </ItemDetails>
-        }
-    </SwapiServiceConsumer>
+        <Record field="gender" label="Gender" />
+        <Record field="eyeColor" label="Eye Color" />
+    </ItemDetails>
   )
 }
 
@@ -58,7 +55,7 @@ const StarshipDetails =  ({ itemId }) => {
 }
 
 export {
-  PersonDetails,
+  withSwapiService(PersonDetails),
   PlanetDetails,
   StarshipDetails
 }
