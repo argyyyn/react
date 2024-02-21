@@ -1,20 +1,21 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import ReactDOM from 'react-dom/client';
 
-const App = () => {
-  return <HookSwitches />
-}
+const myContext = React.createContext()
 
-const HookSwitches = () => {
-  const [color, setColor] = useState('white')
-  
+const App = () => {
   return (
-      <div style={{padding: '10px', background: color}}>
-        <button onClick={() => setColor('black') }>Dark</button>
-        <button onClick={() => setColor('white') }>Light</button>
-      </div>
+    <myContext.Provider value="argo">
+      <Child/>
+    </myContext.Provider>
   )
 }
+
+const Child = () => {
+  const val = useContext(myContext)
+  return <p>{val}</p>
+}
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
