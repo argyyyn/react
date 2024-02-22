@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
-import ReactDOM from "react-dom/client";
+import React, {useEffect, useState} from "react"
+import ReactDOM from "react-dom/client"
 
 const App = () => {
   const [value, setValue] = useState(0)
   const [visible, setVisible] = useState(true)
+
 
   if (visible) {
     return (
@@ -12,28 +13,34 @@ const App = () => {
         <button onClick={() => setVisible(false)}>hide</button>
 
         <Counter value={value}/>
+        <Notification />
       </div>
     )
   } else {
     return <button onClick={() => setVisible(true)}>Show</button>
   }
 }
-
 const Counter = ({value}) => {
-
   useEffect(() => {
-    console.log('use effect')
+    console.log('mounted')
+    return () => console.log('unmounted')
+  }, [])
 
-    return () => console.log('clear')
-  }, [value])
+  useEffect(() => { console.log('update') })
 
   return <p>{value}</p>
 }
 
+const Notification = () => {
+  const [visible, setVisible] = useState(true)
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+  useEffect(() => {
+    const timeout = setTimeout(() => { setVisible(false) }, 2500)
+    return () => clearTimeout(timeout)
+  }, [])
+
+  return <div>{visible && <p>Notify message</p>}</div>
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
