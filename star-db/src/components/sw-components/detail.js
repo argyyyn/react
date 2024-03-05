@@ -55,7 +55,7 @@ const StarshipDetails =  ({ itemId }) => {
 }
 
 export {
-  withSwapiService(PersonDetails),
+  PersonDetails,
   PlanetDetails,
-  StarshipDetails
+  StarshipDetails,
 }
