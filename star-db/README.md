@@ -1,6 +1,32 @@
-# Getting Started with Create React App
+# Project description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project was created as sandbox project for myself. The project uses old react class component
+styles and react patterns as: 
+1. using functions
+2. render functions 
+3. elements props
+4. children 
+5. refactor code
+6. cloning elements
+7. HOC 
+8. context
+9. context api
+
+## Project goal
+
+1. To create a react application using old style to understand all react history with old concepts
+2. Adding all hooks to make development more effective (precommit, postcommit, husky...)
+3. Repeating all testing practices (unit test, cypress...)
+4. Use all design patterns in the project, as a self practice
+
+## Known issues
+
+1. Because of the creation of the project recently (1 month ago), the project was not finished
+yet.
+2. Before building the project and run it on prod env, the project throws error on clicking 
+"throw error button". Success scenario: the project has to block the error on component level without breaking
+the website. But the issue is expected because of eslint which shows us the error on screen.
+
 
 ## Available Scripts
 
@@ -38,6 +64,10 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+### `npm run format`
+
+Formats all files in directory "src" using standards of file ".prettierrc"
 
 ## Learn More
 
