@@ -2,9 +2,8 @@ import React, {useEffect, useState} from "react"
 import ReactDOM from "react-dom/client"
 
 const App = () => {
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(1)
   const [visible, setVisible] = useState(true)
-
 
   if (visible) {
     return (
@@ -14,11 +13,27 @@ const App = () => {
 
         <Counter value={value}/>
         <Notification />
+        <PlanetInfo id={value} />
       </div>
     )
   } else {
     return <button onClick={() => setVisible(true)}>Show</button>
   }
+}
+
+const usePlanetInfo = id => {
+  const [name, setName] = useState(null)
+
+  useEffect(() => {
+    let canceled = false
+    fetch('https://swapi.dev/api/planets/' + id)
+      .then(res => res.json())
+      .then(data => !canceled && setName(data.name))
+
+    return () => canceled = true
+  }, [id]);
+
+  return name
 }
 const Counter = ({value}) => {
   useEffect(() => {
@@ -32,14 +47,13 @@ const Counter = ({value}) => {
 }
 
 const Notification = () => {
-  const [visible, setVisible] = useState(true)
+  return <div><p>Notify message</p></div>
+}
 
-  useEffect(() => {
-    const timeout = setTimeout(() => { setVisible(false) }, 2500)
-    return () => clearTimeout(timeout)
-  }, [])
+const PlanetInfo = ({id}) => {
+  const name = usePlanetInfo(id)
 
-  return <div>{visible && <p>Notify message</p>}</div>
+  return <div>{id} {name}</div>
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
